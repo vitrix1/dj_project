@@ -22,9 +22,17 @@ DATA = {
 # Напишите ваш обработчик. Используйте DATA как источник данных
 # Результат - render(request, 'calculator/index.html', context)
 # В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+
+
+def view_receipt(request, dish):
+    context = {
+        'recipe': {}
+    }
+    amount = int(request.GET.get('servings', 1))
+    if amount > 1:
+        for item, value in DATA[dish].items():
+            context['recipe'][item] = value * amount
+    else:
+        context['recipe'] = DATA[dish]
+    return render(request, 'calculator/index.html', context)
+
