@@ -6,7 +6,7 @@ from .models import Student
 
 def students_list(request):
     template = 'school/students_list.html'
-    student = Student.objects.order_by('group')
+    student = Student.objects.all()
     context = {'student': student}
 
     # используйте этот параметр для упорядочивания результатов
