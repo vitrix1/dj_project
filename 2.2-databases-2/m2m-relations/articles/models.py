@@ -25,4 +25,4 @@ class Article(models.Model):
 class Scope(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='scopes')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='scopes')
-    is_main = models.BooleanField(name='Main', default=False)
+    is_main = models.BooleanField(name='is_main', default=False)

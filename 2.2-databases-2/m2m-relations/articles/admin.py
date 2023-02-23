@@ -6,15 +6,22 @@ from .models import Article, Tag, Scope
 
 
 class ScopeInlineFormset(BaseInlineFormSet):
+    class Meta:
+        model = Scope
+
     def clean(self):
+        tags = []
         for form in self.forms:
             # В form.cleaned_data будет словарь с данными
             # каждой отдельной формы, которые вы можете проверить
-            form.cleaned_data
+            data = form.cleaned_data
+            if data.get('is_main', False):
+                tags.append(data['is_main'])
             # вызовом исключения ValidationError можно указать админке о наличие ошибки
             # таким образом объект не будет сохранен,
             # а пользователю выведется соответствующее сообщение об ошибке
-            raise ValidationError('Something went wrong')
+            if len(tags) > 1:
+                raise ValidationError('Основным может быть только один раздел')
         return super().clean()  # вызываем базовый код переопределяемого метода
 
 
